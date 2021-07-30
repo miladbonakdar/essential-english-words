@@ -1,0 +1,8 @@
+{
+  "name": "Essential English Words",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "3a2438d1"
+}

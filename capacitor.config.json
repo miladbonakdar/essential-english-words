@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Essential English Words",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
