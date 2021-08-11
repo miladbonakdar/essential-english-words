@@ -1,28 +1,42 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Tab 1</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 1</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <ExploreContainer name="Tab 1 page" />
-    </ion-content>
-  </ion-page>
+    <ion-page>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>
+                    <ion-icon :icon="duplicateOutline"/>
+                    New Words
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
+            <Card :card="testCard">
+            </Card>
+        </ion-content>
+    </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+    import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon} from '@ionic/vue';
+    import {duplicateOutline} from 'ionicons/icons';
+    import Card from '@/components/Card.vue';
 
-export default  {
-  name: 'Tab1',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-}
+    export default {
+        name: 'Tab1',
+        components: {Card, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonIcon},
+        setup() {
+            return {
+                duplicateOutline,
+                testCard: {
+                    front: "contemporary",
+                    back: "belonging to the same period or time as something else",
+                    example: "His work was a contemporary account of life in the nineteenth century.",
+                    synonyms: ["concurrent", "coexistent", "modern"],
+                    type: ".obj",
+                    id: 123,
+                    checkList: [false, true, true, true, true, true, true, true, true, true],
+                    hasBeenLearned: false,
+                }
+            }
+        }
+    }
 </script>
