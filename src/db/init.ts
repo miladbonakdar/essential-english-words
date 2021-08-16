@@ -16,8 +16,11 @@ function mapper(words: any): any {
 
 export default async function (forceRemove: boolean) {
     await store.create()
-    if (forceRemove)
+    if (forceRemove) {
         await store.remove(keys.essentialWords)
+        await store.remove(keys.review)
+        await store.remove(keys.game)
+    }
     const words = await store.get(keys.essentialWords)
     if (words)
         return

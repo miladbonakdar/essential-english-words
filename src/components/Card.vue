@@ -71,7 +71,7 @@
                 pricetagOutline
             }
         },
-        data: function () {
+        data() {
             return {
                 showBack: false
             }

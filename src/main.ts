@@ -24,10 +24,6 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-dbInit(false).then(() => {
-    console.log("init completed")
-})
-
 const app = createApp(App)
     .use(IonicVue)
     .use(router);
