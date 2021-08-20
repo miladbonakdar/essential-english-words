@@ -10,34 +10,47 @@
         </ion-header>
         <ion-content :fullscreen="true">
             <template v-if="hasGame">
-                <template v-if="cardsEnded">
+                <Card class="m-10" :card="selectedCard"></Card>
+                <ion-grid class="mx-10">
+                    <ion-row>
+                        <ion-col>
+                            <ion-button @click="knowThisCard" expand="block" fill="outline">
+                                <ion-icon :icon="starOutline"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button @click="noButtonHandler" expand="block" fill="outline" color="danger">No
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button @click="yesButtonHandler" expand="block" fill="outline" color="success">Yes
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
 
-                </template>
-                <template v-else>
-                    <Card :card="selectedCard">
-                    </Card>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col>
-                                <ion-button expand="block" fill="outline">
-                                    <ion-icon :icon="starOutline"></ion-icon>
-                                </ion-button>
-                            </ion-col>
-                            <ion-col>
-                                <ion-button expand="block" fill="outline" color="danger">No</ion-button>
-                            </ion-col>
-                            <ion-col>
-                                <ion-button expand="block" fill="outline" color="success">Yes</ion-button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </template>
+                <ion-chip outline="true" color="dark" class="m-10">
+                    <ion-label>You answered {{game.answeredCards.length}} cards, {{game.cards.length -
+                        game.answeredCards.length}} to go
+                    </ion-label>
+                </ion-chip>
             </template>
             <template v-else>
-                <ion-row>
+                <ion-row class="m-10">
                     <ion-col>
                         <ion-button @click="newGame" expand="block" fill="outline" color="primary">Start New Game
                         </ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row class="m-10">
+                    <ion-col>
+                        <ion-text>
+                            Cards Pending:
+                            <ion-chip outline="true" color="primary">
+                                <ion-label color="primary">{{cardsPending}}</ion-label>
+                            </ion-chip>
+                        </ion-text>
                     </ion-col>
                 </ion-row>
             </template>
@@ -46,7 +59,7 @@
 </template>
 
 <script>
-    import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon} from '@ionic/vue';
+    import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, toastController} from '@ionic/vue';
     import {duplicateOutline, starOutline} from 'ionicons/icons';
     import Card from '@/components/Card.vue';
     import builder from '@/db/repos/game'
@@ -69,7 +82,8 @@
         data() {
             return {
                 game: null,
-                selectedCard: null
+                selectedCard: null,
+                cardsPending: 0
             }
         },
         methods: {
@@ -78,6 +92,7 @@
                     this.game = res
                     this.setCurrentCard()
                 });
+                this.loadPendingCards()
             },
             newGame() {
                 gameRepo.newGame().then(res => {
@@ -87,20 +102,63 @@
                 })
             },
             handleError(err) {
-                console.error(err)
+                toastController
+                    .create({
+                        message: err.toString(),
+                        duration: 2000
+                    }).then(toast => {
+                    toast.present()
+                })
             },
             setCurrentCard() {
-                if (!this.game) this.selectedCard = null
+                if (!this.game) {
+                    this.game = null
+                    this.selectedCard = null
+                    return
+                }
                 this.selectedCard = this.game.getCandidateCard()
+            },
+            noButtonHandler() {
+                this.selectedCard.checkFalse()
+                this.updateCard()
+            },
+            yesButtonHandler() {
+                this.selectedCard.checkTrue()
+                this.updateCard()
+            },
+            updateCard() {
+                this.game.cardAnswered(this.selectedCard)
+                gameRepo.updateGame(this.game).then(res => {
+                    console.log("game updated")
+                    if (this.game.canBeDone())
+                        return this.finishGame()
+                    else
+                        return this.setCurrentCard()
+                })
+            },
+            finishGame() {
+                gameRepo.finishGame().then(res => {
+                    this.loadGame()
+                })
+            },
+            knowThisCard() {
+                this.selectedCard.checkAsKnow()
+                this.updateCard()
+            },
+            loadPendingCards() {
+                gameRepo.cardsCount().then(res => {
+                    this.cardsPending = res
+                })
             }
         },
         computed: {
             hasGame() {
                 return this.game
-            },
-            cardsEnded() {
-                return this.game && this.game.canBeDone()
-            },
+            }
         }
     }
 </script>
+
+<style>
+
+</style>

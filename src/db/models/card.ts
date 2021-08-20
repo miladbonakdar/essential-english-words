@@ -28,6 +28,14 @@ export class Card {
         return !this.checkList || this.checkList.length == 0
     }
 
+    needReview(): boolean {
+        if (this.hasBeenLearned)
+            return false
+        if (this.checkList.length === 0)
+            return false
+        return this.checkList.filter(a => a).length < Constants.MaxTrueChecksForPass
+    }
+
     isHard(): boolean {
         if (this.checkList.length < Constants.MaxTrueChecksForPass)
             return false
@@ -37,11 +45,22 @@ export class Card {
     isFinished(): boolean {
         return !this.isNew() && this.checkList.filter(a => a).length > Constants.MaxTrueChecksForPass
     }
+
+    checkTrue() {
+        this.checkList.push(true)
+    }
+
+    checkAsKnow() {
+        this.hasBeenLearned = true
+    }
+
+    checkFalse() {
+        this.checkList.push(false)
+    }
 }
 
-
 export function wrapWords(words: Array<any>): Array<Card> {
-    let newWords: Array<Card> = []
+    const newWords: Array<Card> = []
     for (const word of words) {
         newWords.push(new Card(word))
     }

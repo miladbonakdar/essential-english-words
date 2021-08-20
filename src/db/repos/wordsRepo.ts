@@ -28,9 +28,11 @@ const repo = {
     async getAll() {
         return await loadWords()
     },
-    async getCardsForGame(size: number) {
+    async getCardsForGame(size: number | null, cardFilter: (word: Card) => boolean) {
         const words = await loadWords()
-        return words.filter(word => word.isNew()).slice(0, size)
+        if (size)
+            return words.filter(word => cardFilter(word)).slice(0, size)
+        return words.filter(word => cardFilter(word))
     },
     async updateCards(cards: Array<Card>) {
         const words = await loadWords()
@@ -40,6 +42,10 @@ const repo = {
                 words[i] = newWord
         }
         await UpdateWords()
+    },
+    async countCards(selector: (card: Card) => boolean): Promise<number> {
+        const words = await loadWords()
+        return words.filter(c => selector(c)).length
     }
 }
 

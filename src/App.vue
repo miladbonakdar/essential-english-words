@@ -3,7 +3,7 @@
         <template v-if="dbInitCompleted">
             <ion-router-outlet/>
         </template>
-        <ion-text v-else color="danger">
+        <ion-text class="m-top-10 text-center" v-else color="danger">
             <h1>Loading . . .</h1>
         </ion-text>
     </ion-app>
@@ -56,5 +56,21 @@
 
     .text-muted {
         color: #95a5a6;
+    }
+
+    .m-top-10 {
+        margin-top: 10px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .m-10 {
+        margin: 10px 10px 10px 10px;
+    }
+
+    .mx-10 {
+        margin: 0 10px 0 10px;
     }
 </style>

@@ -1,21 +1,19 @@
-import {Card} from "@/db/models/card";
+import {Card, wrapWords} from "@/db/models/card";
 import {AppError} from "@/application/appError";
 
 export class Game {
     created: Date;
     cards: Array<Card>;
     answeredCards: Array<Card>;
-    size: number;
 
     constructor(game: any = null) {
         this.created = game ? game.created : new Date()
-        this.cards = game ? game.cards : []
-        this.answeredCards = game ? game.answeredCards : []
-        this.size = game ? game.size : 10
+        this.cards = game ? wrapWords(game.cards) : []
+        this.answeredCards = game ? wrapWords(game.answeredCards) : []
     }
 
-    addCards(cards: Array<Card>) {
-        this.cards = [...this.cards, ...cards]
+    setCards(cards: Array<Card>) {
+        this.cards = cards
     }
 
     canBeDone(): boolean {

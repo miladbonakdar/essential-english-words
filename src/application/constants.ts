@@ -1,4 +1,5 @@
 export const Constants = {
-    MaxTrueChecksForPass: 5,
-    HardCardFalseChecks: 3
+    MaxTrueChecksForPass: 6,
+    HardCardFalseChecks: 3,
+    DefaultCarsForNewGame : 10
 }
