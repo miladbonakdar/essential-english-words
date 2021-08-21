@@ -1,7 +1,7 @@
 <template>
     <ion-card>
         <ion-item>
-            <ion-icon :icon="pricetagOutline" slot="start"></ion-icon>
+            <ion-icon color="dark" :icon="pricetagOutline" slot="start"></ion-icon>
             <ion-label>{{card.front}}</ion-label>
             <ion-button fill="outline" slot="end" @click="showBack = !showBack">{{ showBack ? "Hide" : "Show"}}
             </ion-button>
@@ -41,7 +41,8 @@
             <ion-item v-if="card.checkList && card.checkList.length > 0" lines="none">
                 History:
                 <ion-text>
-                    <ion-chip class="mleft" v-for="chip of card.checkList" v-bind:key="chip" :color="chip ? 'success' : 'danger'">
+                    <ion-chip class="mleft" v-for="chip of card.checkList" v-bind:key="chip"
+                              :color="chip ? 'success' : 'danger'">
                         {{chip? "Y" : "N"}}
                     </ion-chip>
                 </ion-text>
@@ -73,11 +74,18 @@
         },
         data() {
             return {
-                showBack: false
+                showBack: false,
             }
         },
         props: {
             card: Object
+        },
+        watch: {
+            card: function (old, newVal) {
+                {
+                    this.showBack = false
+                }
+            }
         }
     }
 </script>

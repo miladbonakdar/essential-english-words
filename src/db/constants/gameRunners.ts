@@ -20,7 +20,27 @@ const ReviewGame = {
     }
 }
 
+const HardCardsGame = {
+    sizeSelector: (): number | null => {
+        return null;
+    },
+    wordSelector: (card: Card): boolean => {
+        return card.isHard()
+    }
+}
+
+const CardsIKnow = {
+    sizeSelector: (): number | null => {
+        return null;
+    },
+    wordSelector: (card: Card): boolean => {
+        return card.iKnow()
+    }
+}
+
 export const runners = {
     [keys.review]: ReviewGame,
     [keys.game]: NewCardsGame,
+    [keys.cardsIKnow]: CardsIKnow,
+    [keys.hardCards]: HardCardsGame,
 }

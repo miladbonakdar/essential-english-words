@@ -37,9 +37,15 @@ export class Card {
     }
 
     isHard(): boolean {
+        if (this.hasBeenLearned)
+            return false
         if (this.checkList.length < Constants.MaxTrueChecksForPass)
             return false
         return this.checkList.filter(a => !a).length >= Constants.HardCardFalseChecks
+    }
+
+    iKnow(): boolean {
+        return this.hasBeenLearned
     }
 
     isFinished(): boolean {

@@ -1,5 +1,7 @@
 export default {
     essentialWords: "essentialWords",
     game: "game",
-    review : "review"
+    review : "review",
+    hardCards : "hardCards",
+    cardsIKnow : "cardsIKnow"
 }

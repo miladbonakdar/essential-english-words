@@ -15,7 +15,7 @@
                     <ion-row>
                         <ion-col>
                             <ion-button @click="knowThisCard" expand="block" fill="outline">
-                                <ion-icon :icon="starOutline"></ion-icon>
+                                <ion-icon :icon="star"></ion-icon>
                             </ion-button>
                         </ion-col>
                         <ion-col>
@@ -38,7 +38,9 @@
             <template v-else>
                 <ion-row class="m-10">
                     <ion-col>
-                        <ion-button @click="newGame" expand="block" fill="outline" color="primary">Start New Game
+                        <ion-button @click="newGame" expand="block" fill="outline" color="primary">
+                            <ion-icon class="mr-10" :icon="caretForwardCircleOutline"/>
+                            Start New Game
                         </ion-button>
                     </ion-col>
                 </ion-row>
@@ -46,9 +48,10 @@
                 <ion-row class="m-10">
                     <ion-col>
                         <ion-text>
+                            <ion-icon class="mr-5" :icon="telescopeOutline"/>
                             Cards Pending:
-                            <ion-chip outline="true" color="primary">
-                                <ion-label color="primary">{{cardsPending}}</ion-label>
+                            <ion-chip color="danger">
+                                <ion-label color="danger">{{cardsPending}}</ion-label>
                             </ion-chip>
                         </ion-text>
                     </ion-col>
@@ -60,7 +63,7 @@
 
 <script>
     import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, toastController} from '@ionic/vue';
-    import {duplicateOutline, starOutline} from 'ionicons/icons';
+    import {duplicateOutline, star, caretForwardCircleOutline, telescopeOutline} from 'ionicons/icons';
     import Card from '@/components/Card.vue';
     import builder from '@/db/repos/game'
     import Keys from '@/db/keys'
@@ -73,7 +76,9 @@
         setup() {
             return {
                 duplicateOutline,
-                starOutline,
+                star,
+                caretForwardCircleOutline,
+                telescopeOutline
             }
         },
         created() {

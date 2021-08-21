@@ -44,8 +44,19 @@ const repo = function (gameKey: string) {
         },
         async cardsCount(): Promise<number> {
             return WordsRepo.countCards(runner.wordSelector)
+        },
+        async decline() {
+            await db.remove(gameKey);
         }
     }
 }
 
 export default repo
+
+export async function findGames(games: Array<string>): Promise<string | null> {
+    for (const game of games) {
+        const res = await db.get(game)
+        if (res) return game
+    }
+    return null
+}

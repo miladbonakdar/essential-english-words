@@ -46,6 +46,28 @@ const repo = {
     async countCards(selector: (card: Card) => boolean): Promise<number> {
         const words = await loadWords()
         return words.filter(c => selector(c)).length
+    },
+    async cardsReport(): Promise<any> {
+        const words = await loadWords()
+        const report = {
+            iKnow: 0,
+            learned: 0,
+            hardCards: 0,
+            needReview: 0,
+            pending: 0
+        }
+        for (const word of words) {
+            if (word.iKnow())
+                report.iKnow++
+            if (word.isFinished())
+                report.learned++
+            if (word.isHard())
+                report.hardCards++
+            if (word.needReview())
+                report.needReview++
+        }
+        report.pending = words.length - (report.learned + report.iKnow)
+        return report
     }
 }
 
